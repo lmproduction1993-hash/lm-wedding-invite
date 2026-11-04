@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <title>ဖိတ်စာ Admin · LM STUDIO</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23b8955a%27/%3E%3Cpath d=%27M32 47S17 38 17 27a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20z%27 fill=%27%23fff8e6%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/fonts.css">
 <style>
 :root{--bg:#f4efe8;--card:#fffdf9;--ink:#2f2925;--muted:#8a7f78;--line:#e6dccd;--gold:#b8955a;--deep:#7e5c28;--ok:#3d8b5a;--danger:#b5483d;
@@ -398,8 +399,13 @@ function renderUI(p) {
   const L = LANGS.find(l => l.code === editLang).label;
   p.append(el('h2', {}, `ခလုတ်နှင့် ခေါင်းစဉ် စာသားများ — ${L}`), el('p', { class: 'lead' }, 'Website ရှိ ခလုတ်များ၊ ခေါင်းစဉ်ငယ်များ၊ Countdown၊ RSVP form စာသားများကို ပြင်ရန်။'));
   const g = el('div', { class: 'grid' });
+  const UIL = { tapOpen: 'စာအိတ်ဖွင့်ရန် စာ', weMarry: 'Hero ခေါင်းစဉ်ငယ်', cardTitle: 'ဖိတ်စာ ခေါင်းစဉ်', saveDate: 'Countdown ခေါင်းစဉ်ငယ်', days: 'ရက်', hours: 'နာရီ', minutes: 'မိနစ်', seconds: 'စက္ကန့်',
+    date: 'ရက်စွဲ (ခေါင်းစဉ်)', time: 'အချိန် (ခေါင်းစဉ်)', venue: 'နေရာ (ခေါင်းစဉ်)', map: 'မြေပုံ ခလုတ်', calendar: 'Calendar ခလုတ်', storyEyebrow: 'Album ခေါင်းစဉ်ငယ်', swipe: 'Album ပွတ်ဆွဲရန် စာ',
+    preWedding: 'Gallery ခေါင်းစဉ်ငယ်', rsvp: 'RSVP ခေါင်းစဉ်ငယ်', rsvpAsk: 'RSVP မေးခွန်း ({d} = နောက်ဆုံးရက်)', name: 'အမည် (Form)', namePh: 'အမည် နမူနာစာ', attend: 'ကြွရောက်မလား (Form)', yes: 'လာမည် ခလုတ်', no: 'မလာနိုင် ခလုတ်',
+    guests: 'ဦးရေ (Form)', wishes: 'ဆုတောင်းစကား (Form)', wishesPh: 'ဆုတောင်းစကား နမူနာစာ', sms: 'SMS ခလုတ်', copy: 'Copy ခလုတ်', call: 'ဖုန်းခေါ် ခလုတ်', copied: 'Copy ပြီး သတိပေးစာ', copyFail: 'Copy မရ သတိပေးစာ',
+    linkCopied: 'Link Copy ပြီး စာ', thanks: 'အောက်ခြေ ကျေးဇူးတင်စာ', scan: 'ကတ်ပေါ် Scan ရန်စာ', cardFoot: 'ကတ် အောက်ခြေစာ', msgHead: 'SMS ခေါင်းစဉ်', yesMsg: 'SMS — လာမည်', noMsg: 'SMS — မလာနိုင်', none: 'ဗလာ သင်္ကေတ', pastEvent: 'ပွဲပြီးသွားလျှင် ပြမည့်စာ' };
   Object.keys(ORIG.i18n.en).forEach(k => {
-    g.append(inp(k, i18n[editLang][k], v => i18n[editLang][k] = v, { hint: editLang !== 'en' ? 'English: ' + i18n.en[k] : '', wide: (i18n.en[k] || '').length > 40 }));
+    g.append(inp(UIL[k] || k, i18n[editLang][k], v => i18n[editLang][k] = v, { hint: editLang !== 'en' ? 'English: ' + i18n.en[k] : '', wide: (i18n.en[k] || '').length > 40 }));
   });
   p.append(g);
   p.append(el('div', { class: 'row' }, el('button', { class: 'btn sm', onclick: () => { if (confirm('ဒီဘာသာ၏ ခလုတ်စာသားများကို မူလအတိုင်း ပြန်ထားမလား?')) { i18n[editLang] = Object.assign({}, ORIG.i18n.en, ORIG.i18n[editLang]); changed(true); } } }, '↺ မူလအတိုင်း ပြန်ထားမည်')));
@@ -469,7 +475,15 @@ async function exportZip() {
   busy(true, 'ZIP ပြင်ဆင်နေသည်…');
   try {
     const B = window.SITE_BUNDLE, zip = new JSZip(), root = zip.folder(slug());
-    Object.entries(B.files).forEach(([path, text]) => root.file(path, text));
+    const gEN = pick(cfg.groom, 'en'), bEN = pick(cfg.bride, 'en'), esc = t => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    const site = (cfg.siteUrl && !/your-site/.test(cfg.siteUrl)) ? cfg.siteUrl.replace(/\/+$/, '') + '/' : '';
+    Object.entries(B.files).forEach(([path, text]) => {
+      if (path === 'index.html') text = text
+        .replace(/<title>[^<]*<\/title>/, `<title>Wedding Invitation · ${esc(gEN)} &amp; ${esc(bEN)}</title>`)
+        .replace(/(<meta property="og:title" content=")[^"]*/, `$1Wedding Invitation · ${esc(gEN)} & ${esc(bEN)}`)
+        .replace(/(<meta name="description" content=")[^"]*/, `$1${esc(pick(cfg.invite, cfg.defaultLang || 'my'))}`);
+      root.file(path, text);
+    });
     Object.entries(B.binary || {}).forEach(([path, b64]) => root.file(path, b64ToBytes(b64)));
     const out = clone(cfg), map = {}, missing = [];
     const photo = async r => {
@@ -481,6 +495,8 @@ async function exportZip() {
       return (map[r] = name);
     };
     out.cover = await photo(out.cover);
+    { const ix = await root.file('index.html').async('string');
+      root.file('index.html', ix.replace(/(<meta property="og:image" content=")[^"]*/, `$1${site}${out.cover}`)); }
     out.gallery = await Promise.all(out.gallery.map(photo));
     for (const pg of out.story) pg.photos = await Promise.all(pg.photos.map(photo));
     const m = await idb.get('music') || (out.music ? await tryFetch(out.music) : null);
