@@ -5,7 +5,9 @@
    - Code မပြင်ရပါ။ Form တွင် ရိုက်ထည့်/ပုံရွေးရုံဖြင့် ညာဘက် Preview တွင် ချက်ချင်း ပြောင်းမည်။
    - Tab များ: ① အခြေခံ  ② စာသား (၅ ဘာသာ)  ③ ဓာတ်ပုံ  ④ Our Story Album  ⑤ ခလုတ်စာသား  ⑥ သီချင်း/ထုတ်ယူ
    - ပြင်သမျှ Browser ထဲတွင် အလိုအလျောက် သိမ်းသည် (ပိတ်ပြီး ပြန်ဖွင့်လည်း ကျန်နေမည်)။
-   - ပြီးလျှင် "⬇ Website ZIP ထုတ်မည်" → Unzip → Netlify Drop သို့ folder ဆွဲထည့်ပါ။
+   - ပြီးလျှင် "⬇ Website ZIP ထုတ်မည်" → dash.cloudflare.com → Workers & Pages → Create → Pages → Drag and drop (ZIP ဆွဲထည့်)။
+   - အတွဲသစ်တစ်တွဲ = ဒီ Template folder ကို Copy ကူး၍ folder အသစ် + Cloudflare Project အသစ် (Link/QR သီးခြား)။
+   - ဖောင့်များ Website ထဲတွင် ပါပြီးသား (Google Fonts မသုံး) — Website တင်ထားသော Host ပွင့်လျှင် VPN မလိုပါ။
    - ကွန်ပျူတာ တခြားတစ်လုံးတွင် ဆက်ပြင်ရန် ⑥ → "Project ဖိုင် သိမ်းမည်/ဖွင့်မည်"။
 
 ဖိုင်များ

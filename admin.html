@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <title>ဖိတ်စာ Admin · LM STUDIO</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Padauk:wght@400;700&family=Noto+Sans+Myanmar:wght@400;600&family=Noto+Sans+Thai:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/fonts.css">
 <style>
 :root{--bg:#f4efe8;--card:#fffdf9;--ink:#2f2925;--muted:#8a7f78;--line:#e6dccd;--gold:#b8955a;--deep:#7e5c28;--ok:#3d8b5a;--danger:#b5483d;
-  --f:'Padauk','Noto Sans Myanmar','Pyidaungsu','Noto Sans Thai','Noto Sans SC',system-ui,sans-serif}
+  --f:'Padauk','Noto Sans Myanmar','Pyidaungsu','Noto Sans Thai','PingFang SC','Microsoft YaHei',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
 button,input,select,textarea{font-family:inherit;font-size:15px;color:inherit}
@@ -138,8 +138,10 @@ const b64ToBytes = s => { const bin = atob(s); const a = new Uint8Array(bin.leng
 
 /* ================= storage (IndexedDB) ================= */
 const mem = new Map();
+/* each folder / website gets its own saved draft (one couple = one folder) */
+const DBNAME = 'lm-wedding-admin:' + decodeURIComponent(location.pathname.replace(/[^/]*$/, ''));
 const idb = (() => { let p;
-  const open = () => p || (p = new Promise((res, rej) => { const r = indexedDB.open('lm-wedding-admin', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+  const open = () => p || (p = new Promise((res, rej) => { const r = indexedDB.open(DBNAME, 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
   const tx = async (mode, fn) => { try { const db = await open(); return await new Promise((res, rej) => { const t = db.transaction('kv', mode); const q = fn(t.objectStore('kv')); t.oncomplete = () => res(q.result); t.onerror = () => rej(t.error); }); } catch (e) { return undefined; } };
   return {
     get: async k => { const v = await tx('readonly', s => s.get(k)); return v !== undefined ? v : mem.get(k); },
@@ -154,6 +156,19 @@ let cfg, i18n, editLang = 'my', tab = 'basic', view = 'site';
 const cache = {};   // image id -> dataURL (for preview / thumbnails)
 let musicInfo = null;
 
+/* migrate draft saved by older version (shared by all folders) */
+async function legacyDump() { try { return await new Promise((res) => {
+  const r = indexedDB.open('lm-wedding-admin'); r.onupgradeneeded = () => { r.transaction.abort(); res(null); };
+  r.onerror = () => res(null);
+  r.onsuccess = () => { const db = r.result; if (!db.objectStoreNames.contains('kv')) { db.close(); return res(null); }
+    const st = db.transaction('kv').objectStore('kv'); const ks = st.getAllKeys(), vs = st.getAll();
+    vs.onsuccess = () => { db.close(); res(ks.result.map((k, i) => [k, vs.result[i]])); }; vs.onerror = () => res(null); };
+}); } catch (e) { return null; } }
+if (!(await idb.get('draft')) && !(await idb.get('legacyChecked'))) {
+  const old = await legacyDump();
+  if (old && old.some(([k]) => k === 'draft') && confirm('ယခင် Version တွင် ပြင်ထားသော ဖိတ်စာ တွေ့ပါသည်။ ဒီ folder ထဲသို့ ယူသုံးမလား?\n(ဖိတ်စာအသစ် စလုပ်မည်ဆိုလျှင် Cancel နှိပ်ပါ)')) { for (const [k, v] of old) await idb.set(k, v); }
+  await idb.set('legacyChecked', 1);
+}
 const draft = await idb.get('draft');
 if (draft && draft.cfg) { cfg = draft.cfg; i18n = draft.i18n || clone(ORIG.i18n); }
 else { cfg = clone(ORIG.cfg); i18n = clone(ORIG.i18n); }
@@ -402,12 +417,16 @@ function renderExport(p) {
 
   p.append(el('h2', { style: 'margin-top:26px' }, 'Website ထုတ်ယူ၍ Internet ပေါ်တင်ရန်'));
   p.append(el('div', { class: 'note' }, el('ol', {},
-    el('li', {}, 'အပေါ်က “⬇ Website ZIP ထုတ်မည်” ကို နှိပ်ပါ (ပြင်ထားသမျှ စာသား + ဓာတ်ပုံ + သီချင်း အားလုံးပါမည်)'),
-    el('li', {}, 'ZIP ကို Extract (Unzip) လုပ်ပါ → wedding-invitation folder ရပါမည်'),
-    el('li', {}, 'app.netlify.com/drop သို့သွား၍ folder တစ်ခုလုံးကို ဆွဲထည့်ပါ → Link ရပါမည်'),
-    el('li', {}, 'ရလာသော Link ကို ① အခြေခံ → “Website Link” တွင်ထည့်၍ ZIP ထပ်ထုတ်/ထပ်တင်ပါ'),
-    el('li', {}, 'card.html ကိုဖွင့်၍ QR ကတ်ကို Print ထုတ်ပါ (Print မထုတ်မီ ဖုန်းဖြင့် Scan စမ်းပါ)')
+    el('li', {}, `“⬇ Website ZIP ထုတ်မည်” ကိုနှိပ်ပါ → ${slug()}.zip ကျလာမည် (စာသား + ဓာတ်ပုံ + သီချင်း + ဖောင့် အားလုံးပါ)`),
+    el('li', {}, 'dash.cloudflare.com → Workers & Pages → Create application → Pages → Drag and drop your files'),
+    el('li', {}, el('span', {}, 'Project name: ', el('b', {}, slug()), ` → Link: https://${slug()}.pages.dev`)),
+    el('li', {}, 'ZIP ကို ဆွဲထည့် → Deploy site'),
+    el('li', {}, 'Link ကို ① အခြေခံ → “Website Link” တွင်ထည့် → ZIP ထပ်ထုတ် → Cloudflare တွင် “Create new deployment” ဖြင့် ထပ်တင်ပါ (Link မပြောင်းပါ)'),
+    el('li', {}, 'QR ကတ် tab တွင် QR စစ်၍ card.html ဖြင့် Print ထုတ်ပါ')
   )));
+  p.append(el('div', { class: 'note', style: 'margin-top:10px;background:#eef6f0;border-color:#c5e2cf' },
+    el('b', {}, 'သတို့သား/သတို့သမီး အတွဲသစ် လုပ်ရန်: '),
+    'မူလ Template folder ကို Copy ကူး၍ folder အမည်ပြောင်းပါ (ဥပမာ wedding-aung-may) → အဲဒီ folder ထဲက admin.html ကို ဖွင့်ပါ။ Folder တစ်ခုချင်းစီမှာ သီးခြား သိမ်းထားသဖြင့် အတွဲတစ်တွဲနဲ့ တစ်တွဲ မရောပါ။ Cloudflare မှာလည်း Project အသစ်ဖြင့် တင်ပါ (Link/QR တစ်တွဲ တစ်ခု)။'));
   p.append(el('div', { class: 'row' }, el('button', { class: 'btn solid', onclick: exportZip }, '⬇ Website ZIP ထုတ်မည်')));
 
   p.append(el('h2', { style: 'margin-top:26px' }, 'Project သိမ်းဆည်းခြင်း (Backup)'));
@@ -443,13 +462,15 @@ const HEAD_CFG = `/* ===========================================================
    မင်္ဂလာဖိတ်စာ အချက်အလက်များ — admin.html ဖြင့် ပြင်ရန် အကြံပြုပါသည်
    (Generated by LM STUDIO Wedding Admin)
    ===================================================================== */\n`;
+function slug() { const s = (pick(cfg.groom, 'en') + '-' + pick(cfg.bride, 'en')).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); return 'wedding-' + (s || 'invitation'); }
 async function tryFetch(path) { try { const r = await fetch(path); if (r.ok) return await r.blob(); } catch (e) {} return null; }
 async function exportZip() {
   if (!window.JSZip || !window.SITE_BUNDLE) { alert('js/jszip.min.js သို့မဟုတ် js/site-bundle.js မတွေ့ပါ'); return; }
   busy(true, 'ZIP ပြင်ဆင်နေသည်…');
   try {
-    const B = window.SITE_BUNDLE, zip = new JSZip(), root = zip.folder('wedding-invitation');
+    const B = window.SITE_BUNDLE, zip = new JSZip(), root = zip.folder(slug());
     Object.entries(B.files).forEach(([path, text]) => root.file(path, text));
+    Object.entries(B.binary || {}).forEach(([path, b64]) => root.file(path, b64ToBytes(b64)));
     const out = clone(cfg), map = {}, missing = [];
     const photo = async r => {
       if (!r) return r; if (map[r]) return map[r];
@@ -468,9 +489,9 @@ async function exportZip() {
     root.file('js/i18n.js', '/* Website UI strings — 5 languages (edit with admin.html) */\nwindow.LANGS = ' + JSON.stringify(LANGS, null, 2) + ';\n\nwindow.I18N = ' + JSON.stringify(i18n, null, 2) + ';\n');
     root.file('js/site-bundle.js', 'window.SITE_BUNDLE = ' + JSON.stringify(B) + ';\n');
     const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-    download(blob, 'wedding-invitation.zip');
+    download(blob, slug() + '.zip');
     if (missing.length) alert('အောက်ပါပုံများကို ZIP ထဲ မထည့်နိုင်ပါ — အဟောင်း photos folder ထဲမှ ကူးထည့်ပါ (သို့) admin တွင် ပုံပြန်ရွေးပါ:\n' + missing.join('\n'));
-    else toast('✓ wedding-invitation.zip ထုတ်ပြီးပါပြီ');
+    else toast('✓ ' + slug() + '.zip ထုတ်ပြီးပါပြီ');
   } catch (e) { alert('ZIP ထုတ်မရပါ: ' + e.message); }
   busy(false);
 }

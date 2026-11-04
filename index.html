@@ -9,9 +9,7 @@
 <meta property="og:description" content="Kindly scan to view our love and memories">
 <meta property="og:image" content="photos/cover.jpg">
 <meta name="theme-color" content="#f6f1ea">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Padauk:wght@400;700&family=Noto+Sans+Myanmar:wght@400;600&family=Caveat:wght@500&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/fonts.css">
 <style>
 :root{
   --ivory:#f8f4ee; --paper:#fffdf9; --ink:#3a3330; --muted:#8a7f78;
@@ -24,7 +22,7 @@
   --t:var(--mm);
 }
 html[lang=en]{--t:'Cormorant Garamond',Georgia,serif}
-html[lang=zh]{--t:'Noto Serif SC','PingFang SC','Microsoft YaHei',serif}
+html[lang=zh]{--t:'PingFang SC','Noto Sans CJK SC','Noto Serif CJK SC','Microsoft YaHei',serif}
 html[lang=th]{--t:'Noto Sans Thai','Sarabun','Leelawadee UI',sans-serif}
 html[lang=shn]{--t:'Noto Sans Myanmar','Padauk','Pyidaungsu',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -185,11 +183,11 @@ footer .credit{margin-top:18px;font-family:var(--serif);font-size:13px;letter-sp
 html:not([lang=en]) .eyebrow,html:not([lang=en]) .page .sub,html:not([lang=en]) .hero .date{letter-spacing:.04em;text-transform:none}
 .eyebrow{font-family:var(--t)}
 .langbar{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-.langbar button{font-family:'Noto Sans Myanmar','Padauk','Noto Serif SC','Noto Sans Thai',sans-serif;font-size:13px;padding:7px 13px;border-radius:999px;border:1px solid rgba(184,149,90,.55);background:rgba(255,253,249,.8);color:var(--gold-deep);cursor:pointer;line-height:1.5;transition:.2s}
+.langbar button{font-family:'Noto Sans Myanmar','Padauk','Noto Sans Thai','PingFang SC','Microsoft YaHei',sans-serif;font-size:13px;padding:7px 13px;border-radius:999px;border:1px solid rgba(184,149,90,.55);background:rgba(255,253,249,.8);color:var(--gold-deep);cursor:pointer;line-height:1.5;transition:.2s}
 .langbar button.on{background:var(--gold);color:#fff;border-color:var(--gold)}
 #intro .langbar{position:absolute;top:max(22px,env(safe-area-inset-top));left:12px;right:12px}
 .langfab{position:fixed;top:12px;right:12px;z-index:60}
-.langfab>button{font-family:'Noto Sans Myanmar','Padauk','Noto Serif SC','Noto Sans Thai',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid rgba(184,149,90,.5);background:rgba(255,253,249,.92);backdrop-filter:blur(6px);color:var(--gold-deep);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);line-height:1.5}
+.langfab>button{font-family:'Noto Sans Myanmar','Padauk','Noto Sans Thai','PingFang SC','Microsoft YaHei',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid rgba(184,149,90,.5);background:rgba(255,253,249,.92);backdrop-filter:blur(6px);color:var(--gold-deep);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);line-height:1.5}
 .langfab .langbar{position:absolute;right:0;top:calc(100% + 8px);flex-direction:column;background:rgba(255,253,249,.97);padding:8px;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.15);display:none;min-width:120px}
 .langfab.open .langbar{display:flex}
 body.locked .langfab{display:none}
