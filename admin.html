@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>ဖိတ်စာ Admin · LM STUDIO</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Padauk:wght@400;700&family=Noto+Sans+Myanmar:wght@400;600&family=Noto+Sans+Thai:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4efe8;--card:#fffdf9;--ink:#2f2925;--muted:#8a7f78;--line:#e6dccd;--gold:#b8955a;--deep:#7e5c28;--ok:#3d8b5a;--danger:#b5483d;
+  --f:'Padauk','Noto Sans Myanmar','Pyidaungsu','Noto Sans Thai','Noto Sans SC',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+button,input,select,textarea{font-family:inherit;font-size:15px;color:inherit}
+header{position:sticky;top:0;z-index:20;background:rgba(255,253,249,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 18px;flex-wrap:wrap}
+header .logo{font-family:'Great Vibes',cursive;font-size:30px;color:var(--gold);line-height:1}
+header h1{font-size:16px;font-weight:700}
+header .st{font-size:13px;color:var(--muted);margin-left:auto}
+header .st.ok{color:var(--ok)}
+.btn{border:1px solid var(--gold);background:#fff;color:var(--deep);border-radius:999px;padding:8px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1.5;white-space:nowrap}
+.btn:hover{background:#faf3e6}
+.btn.solid{background:var(--gold);color:#fff}.btn.solid:hover{background:var(--deep)}
+.btn.sm{padding:4px 11px;font-size:13px}
+.btn.danger{border-color:var(--danger);color:var(--danger)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 460px;gap:20px;padding:20px 18px 80px;max-width:1400px;margin:0 auto}
+@media (max-width:1000px){main{grid-template-columns:1fr}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.langs{position:sticky;top:62px;z-index:10;display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--bg);padding:8px 0 10px}
+.langs b{font-size:13px;color:var(--muted);font-weight:400;margin-right:4px}
+.langs button{border:1px solid var(--gold);background:#fff;color:var(--deep);border-radius:999px;padding:4px 14px;cursor:pointer}
+.langs button.on{background:var(--gold);color:#fff}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.panel h2{font-size:17px;margin-bottom:4px}
+.panel>p.lead{font-size:13px;color:var(--muted);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px 16px}
+.f{display:flex;flex-direction:column;gap:4px}
+.f.wide{grid-column:1/-1}
+.f .lb{font-size:13px;font-weight:600}
+.f small{font-size:12px;color:var(--muted)}
+.f input,.f select,.f textarea{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff;line-height:1.8}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid #ecd9b3;border-color:var(--gold)}
+.ref{font-size:12px;color:var(--muted);font-style:italic}
+details{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+summary{cursor:pointer;font-weight:600}
+.sect{margin-top:22px}
+.sect h3{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.ph{position:relative;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#eee6dc;cursor:pointer;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph .chg{position:absolute;inset:auto 0 0 0;background:rgba(30,24,20,.6);color:#fff;font-size:12px;text-align:center;padding:3px 0;opacity:0;transition:.2s}
+.ph:hover .chg{opacity:1}
+.ph .tools{position:absolute;top:4px;right:4px;left:4px;display:flex;justify-content:space-between;gap:4px}
+.ph .tools button{width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,255,255,.92);cursor:pointer;font-size:13px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.ph .num{position:absolute;bottom:4px;left:6px;color:#fff;font-size:12px;text-shadow:0 1px 3px #000}
+.add{display:grid;place-items:center;white-space:pre-line;aspect-ratio:4/5;border:2px dashed var(--gold);border-radius:10px;color:var(--deep);cursor:pointer;background:#fffaf1;text-align:center;font-size:13px;padding:6px}
+.cover{max-width:200px}
+.page{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;background:#fff}
+.page .hd{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.page .hd b{margin-right:auto}
+.page .thumbs{grid-template-columns:repeat(3,minmax(0,110px))}
+.warnbox{background:#fdecea;border:1px solid #f1b9b2;color:#8a2c22;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.9}
+.warnbox p+p{margin-top:6px}
+.note{background:#fff8e8;border:1px solid #f0dfb8;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.9}
+.note ol{padding-left:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+/* preview */
+aside{position:sticky;top:72px;align-self:start}
+@media (max-width:1000px){aside{position:static}}
+.pv-hd{display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.pv-hd b{margin-right:auto}
+.seg{display:inline-flex;border:1px solid var(--gold);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:#fff;color:var(--deep);padding:5px 14px;cursor:pointer}
+.seg button.on{background:var(--gold);color:#fff}
+.phone-box{position:relative;margin:0 auto}
+.phone{position:absolute;top:0;left:0;width:400px;height:800px;border:10px solid #1d1a18;border-radius:42px;overflow:hidden;background:#fff;transform-origin:top left;box-shadow:0 20px 50px -18px rgba(0,0,0,.45)}
+.phone.card{width:560px;height:800px;border-radius:14px;border-width:6px}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#2f2925;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:50}
+.toast.show{opacity:1}
+.busy{position:fixed;inset:0;background:rgba(255,253,249,.8);display:none;place-items:center;z-index:60;font-size:16px}
+.busy.show{display:grid}
+.fab-pv{display:none;position:fixed;right:16px;bottom:16px;z-index:30}
+@media (max-width:1000px){.fab-pv{display:inline-flex}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">LM</span>
+  <h1>မင်္ဂလာဖိတ်စာ Admin <span style="font-weight:400;color:var(--muted);font-size:13px">· စာသား/ဓာတ်ပုံ ပြင်ရန်</span></h1>
+  <span class="st" id="status">…</span>
+  <button class="btn solid" id="exportBtn">⬇ Website ZIP ထုတ်မည်</button>
+</header>
+
+<main>
+  <section>
+    <div class="tabs" id="tabs"></div>
+    <div class="langs" id="langs"><b>ပြင်နေသောဘာသာ:</b></div>
+    <div class="panel" id="panel"></div>
+  </section>
+
+  <aside id="preview">
+    <div class="pv-hd">
+      <b>👁 Preview (တိုက်ရိုက်ကြည့်)</b>
+      <div class="seg" id="viewSeg"><button data-v="site" class="on">Website</button><button data-v="card">QR ကတ်</button></div>
+      <button class="btn sm" id="reloadPv" title="Reload">↻</button>
+    </div>
+    <div class="phone-box" id="phoneBox"><div class="phone" id="phone"><iframe id="pv" title="preview"></iframe></div></div>
+  </aside>
+</main>
+
+<a class="btn solid fab-pv" href="#preview">👁 Preview</a>
+<div class="toast" id="toast"></div>
+<div class="busy" id="busy">⏳ <span id="busyMsg">လုပ်ဆောင်နေသည်…</span></div>
+
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/jszip.min.js"></script>
+<script src="js/site-bundle.js"></script>
+<script>
+(async function(){
+/* ================= utils ================= */
+const $ = s => document.querySelector(s);
+const clone = o => JSON.parse(JSON.stringify(o));
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e[k] = v; else if (v !== undefined && v !== null) e.setAttribute(k, v); }
+  kids.flat().forEach(k => k != null && e.append(k)); return e; };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600); };
+const busy = (on, m) => { $('#busy').classList.toggle('show', on); if (m) $('#busyMsg').textContent = m; };
+const LC = LANGS.map(l => l.code);
+const LAYOUTS = { torn: ['စုတ်ပြဲစက္ကူ (ပုံ ၂)', 2], collage: ['Collage (ပုံ ၃)', 3], film: ['ဖလင်ပုံ (ပုံ ၃)', 3], quote: ['Arch + Quote (ပုံ ၁)', 1] };
+const blobToDataURL = b => new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b); });
+const dataURLToBlob = u => { const [h, d] = u.split(','); const bin = atob(d); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new Blob([a], { type: h.match(/:(.*?);/)[1] }); };
+const b64ToBytes = s => { const bin = atob(s); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; };
+
+/* ================= storage (IndexedDB) ================= */
+const mem = new Map();
+const idb = (() => { let p;
+  const open = () => p || (p = new Promise((res, rej) => { const r = indexedDB.open('lm-wedding-admin', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+  const tx = async (mode, fn) => { try { const db = await open(); return await new Promise((res, rej) => { const t = db.transaction('kv', mode); const q = fn(t.objectStore('kv')); t.oncomplete = () => res(q.result); t.onerror = () => rej(t.error); }); } catch (e) { return undefined; } };
+  return {
+    get: async k => { const v = await tx('readonly', s => s.get(k)); return v !== undefined ? v : mem.get(k); },
+    set: async (k, v) => { mem.set(k, v); await tx('readwrite', s => s.put(v, k)); },
+    del: async k => { mem.delete(k); await tx('readwrite', s => s.delete(k)); },
+    clear: async () => { mem.clear(); await tx('readwrite', s => s.clear()); }
+  }; })();
+
+/* ================= state ================= */
+const ORIG = { cfg: clone(window.WEDDING), i18n: clone(window.I18N) };
+let cfg, i18n, editLang = 'my', tab = 'basic', view = 'site';
+const cache = {};   // image id -> dataURL (for preview / thumbnails)
+let musicInfo = null;
+
+const draft = await idb.get('draft');
+if (draft && draft.cfg) { cfg = draft.cfg; i18n = draft.i18n || clone(ORIG.i18n); }
+else { cfg = clone(ORIG.cfg); i18n = clone(ORIG.i18n); }
+LC.forEach(l => { i18n[l] = Object.assign({}, ORIG.i18n.en, ORIG.i18n[l] || {}, i18n[l] || {}); });
+/* Shan text uses English digits: convert any Shan digits (႐-႙) saved earlier */
+(function fixShn(o){ if (!o || typeof o !== 'object') return; for (const k in o) { if (k === 'shn' && typeof o[k] === 'string') o[k] = o[k].replace(/[\u1090-\u1099]/g, c => String(c.charCodeAt(0) - 0x1090)); else fixShn(o[k]); } })(cfg);
+editLang = cfg.defaultLang || 'my';
+const refs = () => [cfg.cover, ...cfg.gallery, ...cfg.story.flatMap(p => p.photos)];
+for (const r of refs()) if (r && r.startsWith('idb:') && !cache[r.slice(4)]) { const b = await idb.get('img:' + r.slice(4)); if (b) cache[r.slice(4)] = await blobToDataURL(b); }
+musicInfo = await idb.get('musicInfo') || null;
+const src = r => (r && r.startsWith('idb:')) ? (cache[r.slice(4)] || '') : r;
+
+/* ================= save + preview ================= */
+let saveT, pvT;
+function changed(rerender) {
+  $('#status').textContent = 'ပြင်ဆင်နေသည်…'; $('#status').className = 'st';
+  clearTimeout(saveT); saveT = setTimeout(async () => { await idb.set('draft', { cfg, i18n, t: Date.now() });
+    $('#status').textContent = '✓ သိမ်းပြီး ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); $('#status').className = 'st ok'; }, 500);
+  clearTimeout(pvT); pvT = setTimeout(sendPreview, 300); updateWarn();
+  if (rerender) render();
+}
+function previewCfg() {
+  const c = clone(cfg); c.cover = src(c.cover); c.gallery = c.gallery.map(src);
+  c.story.forEach(p => p.photos = p.photos.map(src)); c.music = ''; return c;
+}
+function sendPreview() { const w = $('#pv').contentWindow; if (w) w.postMessage({ type: 'wedding-preview', config: previewCfg(), i18n, lang: editLang }, '*'); }
+window.addEventListener('message', e => { if (e.data && e.data.type === 'wedding-ready') sendPreview(); });
+function loadPreview() {
+  $('#pv').src = (view === 'site' ? 'index.html' : 'card.html') + '?preview=1';
+  $('#phone').classList.toggle('card', view === 'card'); fitPhone();
+}
+function fitPhone() {
+  const ph = $('#phone'), box = $('#phoneBox'), w = ph.offsetWidth, h = ph.offsetHeight;
+  const avail = $('#preview').clientWidth, maxH = window.innerWidth > 1000 ? window.innerHeight - 140 : 700;
+  const s = Math.min(1, avail / w, maxH / h);
+  ph.style.transform = `scale(${s})`; box.style.width = w * s + 'px'; box.style.height = h * s + 'px';
+}
+window.addEventListener('resize', fitPhone);
+$('#viewSeg').onclick = e => { const v = e.target.dataset.v; if (!v) return; view = v;
+  [...$('#viewSeg').children].forEach(b => b.classList.toggle('on', b.dataset.v === v)); loadPreview(); };
+$('#reloadPv').onclick = loadPreview;
+
+/* ================= images ================= */
+function pickFiles(multiple, accept, cb) { const i = el('input', { type: 'file', accept }); if (multiple) i.multiple = true;
+  i.onchange = () => i.files.length && cb([...i.files]); i.click(); }
+function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = url; }); }
+async function compress(file, max = 1600, q = .82) {
+  const url = URL.createObjectURL(file);
+  try { const im = await loadImg(url); const s = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+    const c = el('canvas'); c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(r, 'image/jpeg', q));
+  } finally { URL.revokeObjectURL(url); }
+}
+async function addImage(file) {
+  const blob = await compress(file); const id = 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  await idb.set('img:' + id, blob); cache[id] = await blobToDataURL(blob); return 'idb:' + id;
+}
+async function addImages(files) { busy(true, `ဓာတ်ပုံ ${files.length} ပုံ ထည့်နေသည်…`); const out = [];
+  try { for (const f of files) out.push(await addImage(f)); } catch (e) { toast('ပုံဖွင့်မရပါ: ' + e.message); } busy(false); return out; }
+function photoBox(ref, onChange, { tools = [], num } = {}) {
+  const b = el('div', { class: 'ph', title: 'နှိပ်၍ ပုံပြောင်းပါ' }, el('img', { src: src(ref), alt: '' }), el('span', { class: 'chg' }, '📷 ပုံပြောင်းရန်'));
+  if (num) b.append(el('span', { class: 'num' }, num));
+  if (tools.length) { const t = el('div', { class: 'tools' }, tools); t.onclick = e => e.stopPropagation(); b.append(t); }
+  b.onclick = () => pickFiles(false, 'image/*', async fs => { const [r] = await addImages(fs); if (r) { onChange(r); changed(true); } });
+  return b;
+}
+
+/* ================= field builders ================= */
+function inp(label, value, onInput, { type = 'text', area = false, hint = '', ph = '', wide = false, rows = 3 } = {}) {
+  const i = area ? el('textarea', { rows }) : el('input', { type });
+  i.value = value ?? ''; if (ph) i.placeholder = ph;
+  i.addEventListener('input', () => { onInput(i.value); changed(); });
+  return el('label', { class: 'f' + (wide || area ? ' wide' : '') }, el('span', { class: 'lb' }, label), i, hint ? el('small', {}, hint) : null);
+}
+function ml(obj, key) { if (!obj[key] || typeof obj[key] !== 'object') obj[key] = { en: obj[key] || '' }; return obj[key]; }
+function mlInp(label, obj, key, opts = {}) {
+  const v = ml(obj, key);
+  return inp(label, v[editLang], x => { v[editLang] = x; }, { ...opts, ph: editLang !== 'en' ? (v.en || '') : '', hint: editLang !== 'en' && v.en ? 'English: ' + v.en : opts.hint });
+}
+
+/* ================= date text generator ================= */
+function genDates(iso) {
+  const dt = new Date(iso), tz = 'Asia/Yangon';
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' }).formatToParts(dt).map(p => [p.type, p.value]));
+  const Y = +parts.year, M = +parts.month, D = +parts.day, H = +parts.hour, Mi = parts.minute;
+  const wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday);
+  const mmM = ['ဇန်နဝါရီ', 'ဖေဖော်ဝါရီ', 'မတ်', 'ဧပြီ', 'မေ', 'ဇွန်', 'ဇူလိုင်', 'ဩဂုတ်', 'စက်တင်ဘာ', 'အောက်တိုဘာ', 'နိုဝင်ဘာ', 'ဒီဇင်ဘာ'];
+  const mmW = ['တနင်္ဂနွေ', 'တနင်္လာ', 'အင်္ဂါ', 'ဗုဒ္ဓဟူး', 'ကြာသပတေး', 'သောကြာ', 'စနေ'];
+  const shW = ['ဢႃးတိတ်ႉ', 'ၸၼ်', 'ဢင်းၵၢၼ်း', 'ပုတ်ႉ', 'ၽတ်း', 'သုၵ်း', 'သဝ်'];
+  const my = n => localDigits(n, 'my'), sh = n => localDigits(n, 'shn');
+  const h12 = ((H + 11) % 12) + 1;
+  const mmPart = H < 12 ? 'နံနက်' : H < 16 ? 'နေ့လယ်' : H < 19 ? 'ညနေ' : 'ည';
+  const shPart = H < 12 ? 'ယၢမ်းၸဝ်ႉ' : H < 17 ? 'ယၢမ်းဝၼ်း' : 'ယၢမ်းၶမ်ႈ';
+  return {
+    date: {
+      en: new Intl.DateTimeFormat('en-GB', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(dt),
+      shn: `ဝၼ်း${shW[wd]} ဝၼ်းထီ ${sh(D)} လိူၼ် ${sh(M)} ပီ ${sh(Y)}`,
+      my: `${my(Y)} ခုနှစ်၊ ${mmM[M - 1]}လ (${my(D)}) ရက်၊ ${mmW[wd]}နေ့`,
+      zh: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(dt),
+      th: new Intl.DateTimeFormat('th-TH', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(dt)
+    },
+    time: {
+      en: `${h12}:${Mi} ${H < 12 ? 'AM' : 'PM'}`,
+      shn: `${shPart} ${sh(h12)}${Mi !== '00' ? ':' + sh(Mi) : ''} မူင်း`,
+      my: `${mmPart} ${my(h12)}:${my(Mi)} နာရီ`,
+      zh: `${H < 12 ? '上午' : '下午'} ${h12}:${Mi}`,
+      th: `${String(H).padStart(2, '0')}.${Mi} น.`
+    }
+  };
+}
+
+/* ================= tabs ================= */
+const TABS = [
+  ['basic', '① အခြေခံ'], ['text', '② စာသား (၅ ဘာသာ)'], ['photos', '③ ဓာတ်ပုံ'],
+  ['album', '④ Our Story Album'], ['ui', '⑤ ခလုတ်စာသား'], ['export', '⑥ သီချင်း / ထုတ်ယူ']
+];
+TABS.forEach(([k, n]) => $('#tabs').append(el('button', { 'data-k': k, onclick: () => { tab = k; render(); } }, n)));
+LANGS.forEach(l => $('#langs').append(el('button', { 'data-l': l.code, onclick: () => { editLang = l.code; render(); sendPreview(); } }, l.label)));
+
+function render() {
+  [...$('#tabs').children].forEach(b => b.classList.toggle('on', b.dataset.k === tab));
+  [...$('#langs').querySelectorAll('button')].forEach(b => b.classList.toggle('on', b.dataset.l === editLang));
+  $('#langs').style.display = ['text', 'album', 'ui'].includes(tab) ? '' : 'none';
+  const p = $('#panel'); p.innerHTML = '';
+  ({ basic: renderBasic, text: renderText, photos: renderPhotos, album: renderAlbum, ui: renderUI, export: renderExport })[tab](p);
+}
+
+/* ---- ① Basic ---- */
+function renderBasic(p) {
+  p.append(el('div', { class: 'warnbox', id: 'basicWarn' }));
+  p.append(el('h2', {}, 'အခြေခံ အချက်အလက်'), el('p', { class: 'lead' }, 'ရက်စွဲ၊ အချိန်၊ နေရာ၊ ဖုန်း စသည်တို့ ပြင်ပါ။ ပြင်လိုက်တာနဲ့ ညာဘက် Preview မှာ ချက်ချင်း ပြောင်းပါမည်။'));
+  const g = el('div', { class: 'grid' });
+  g.append(
+    inp('Monogram စာလုံး ၁', cfg.monogram[0], v => cfg.monogram[0] = v, { hint: 'ဥပမာ Z' }),
+    inp('Monogram စာလုံး ၂', cfg.monogram[1], v => cfg.monogram[1] = v, { hint: 'ဥပမာ S' })
+  );
+  const ls = el('select'); LANGS.forEach(l => ls.add(new Option(l.label, l.code))); ls.value = cfg.defaultLang || 'my';
+  ls.onchange = () => { cfg.defaultLang = ls.value; changed(); };
+  g.append(el('label', { class: 'f' }, el('span', { class: 'lb' }, 'QR ဖွင့်လျှင် ပထမဆုံးဘာသာ'), ls, el('small', {}, 'ဧည့်သည်ဖုန်းက 中文/ไทย ဆိုရင် အဲဒီဘာသာကို အလိုအလျောက် ရွေးပါမည်')));
+  const dtv = (cfg.dateISO || '').slice(0, 16);
+  const dtI = inp('မင်္ဂလာပွဲ ရက်စွဲ နှင့် အချိန် (မြန်မာစံတော်ချိန်)', dtv, v => { cfg.dateISO = v + ':00+06:30'; }, { type: 'datetime-local', hint: 'Countdown နှင့် Calendar အတွက် အသုံးပြုသည်' });
+  g.append(dtI);
+  g.append(el('div', { class: 'f' }, el('span', { class: 'lb' }, ' '), el('button', { class: 'btn', type: 'button', onclick: () => {
+    const r = genDates(cfg.dateISO); cfg.date = r.date; cfg.time = r.time; changed(); toast('ရက်စွဲ/အချိန် စာသား ၅ ဘာသာ ဖြည့်ပြီးပါပြီ'); } }, '✨ ရက်စွဲ/အချိန် စာသား ၅ ဘာသာ အလိုအလျောက်ဖြည့်'),
+    el('small', {}, 'ရက်စွဲပြောင်းပြီးတိုင်း ဒီခလုတ်ကို နှိပ်ပါ')));
+  g.append(
+    inp('အခမ်းအနား ကြာချိန် (နာရီ)', cfg.durationHours, v => cfg.durationHours = +v || 3, { type: 'number' }),
+    inp('ခန်းမ / နေရာ အမည်', cfg.venue, v => cfg.venue = v, { hint: 'ဥပမာ Oriental House' }),
+    inp('Google Map Link', cfg.mapUrl, v => cfg.mapUrl = v, { wide: true, hint: 'Google Maps မှာ နေရာရှာ → Share → Copy link ကို ဒီမှာ Paste လုပ်ပါ' }),
+    inp('RSVP ဖုန်းနံပါတ်', cfg.rsvpPhone, v => cfg.rsvpPhone = v.replace(/\s/g, ''), { type: 'tel', hint: 'ဧည့်သည်များ SMS ပို့/ဖုန်းခေါ်မည့် နံပါတ်' }),
+    inp('Website Link (Hosting တင်ပြီးမှ ထည့်ရန်)', cfg.siteUrl, v => cfg.siteUrl = v, { type: 'url', hint: 'QR ကတ်မှာ ဒီ Link ကို QR အဖြစ် ထုတ်ပေးပါမည်' }),
+    inp('Quote (English)', cfg.quote, v => cfg.quote = v, { wide: true }),
+    inp('အောက်ခြေ Credit စာသား', cfg.credit, v => cfg.credit = v, { wide: true })
+  );
+  p.append(g); updateWarn();
+}
+function updateWarn() {
+  const box = $('#basicWarn'); if (!box) return; const w = [];
+  const dt = new Date(cfg.dateISO);
+  if (isNaN(dt)) w.push('⚠ မင်္ဂလာပွဲ ရက်စွဲ မထည့်ရသေးပါ။');
+  else if (dt <= Date.now()) w.push(`⚠ ရွေးထားသော ရက်စွဲ (${dt.toLocaleDateString('en-GB', { timeZone: 'Asia/Yangon', day: 'numeric', month: 'long', year: 'numeric' })}) သည် ကျော်လွန်သွားပြီ ဖြစ်၍ Countdown တွင် ၀ ပြပါမည် (Website တွင် “မင်္ဂလာပွဲ ပြီးဆုံးပါပြီ” စာသား ပြမည်)။ ခုနှစ် မှန်/မမှန် စစ်ပါ — ပြင်ပြီးလျှင် ✨ ခလုတ်ကို ထပ်နှိပ်ပါ။`);
+  if (!cfg.siteUrl || /your-site/.test(cfg.siteUrl)) w.push('⚠ Website Link သည် နမူနာသာ ဖြစ်သဖြင့် QR ကို ဖုန်းဖြင့် ဖွင့်မရသေးပါ။ Website ကို Netlify တွင် အရင်တင်ပြီး ရလာသော Link ကို အောက်ပါ “Website Link” တွင် ထည့်ပါ။');
+  box.innerHTML = ''; w.forEach(t => box.append(el('p', {}, t))); box.style.display = w.length ? '' : 'none';
+}
+
+/* ---- ② Text ---- */
+function renderText(p) {
+  const L = LANGS.find(l => l.code === editLang).label;
+  p.append(el('h2', {}, `ဖိတ်စာ စာသားများ — ${L}`), el('p', { class: 'lead' }, 'အပေါ်က ဘာသာခလုတ်ကို ပြောင်း၍ ဘာသာတစ်ခုချင်း ပြင်ပါ။ ဗလာထားလျှင် English ကို ပြမည်။'));
+  const g = el('div', { class: 'grid' });
+  g.append(
+    mlInp('သတို့သား အမည်', cfg, 'groom'), mlInp('သတို့သမီး အမည်', cfg, 'bride'),
+    mlInp('သတို့သား၏ မိဘ', cfg, 'groomParents', { wide: true }), mlInp('သတို့သမီး၏ မိဘ', cfg, 'brideParents', { wide: true }),
+    mlInp('ဖိတ်ကြားစာ', cfg, 'invite', { area: true }),
+    mlInp('ရက်စွဲ (စာသား)', cfg, 'date'), mlInp('အချိန် (စာသား)', cfg, 'time'),
+    mlInp('မြို့ / လိပ်စာ', cfg, 'venueAddress'), mlInp('RSVP နောက်ဆုံးရက်', cfg, 'rsvpDeadline')
+  );
+  p.append(g);
+  p.append(el('p', { class: 'ref', style: 'margin-top:12px' }, 'မှတ်ချက် — Hero ပေါ်က လက်ရေးလှ နာမည်ကြီးသည် English အမည်ကို သုံးသည်။ ဘာသာတစ်ခုချင်း အမည်ကို အောက်တွင် ထပ်ပြသည်။'));
+}
+
+/* ---- ③ Photos ---- */
+function renderPhotos(p) {
+  p.append(el('h2', {}, 'ဓာတ်ပုံများ'), el('p', { class: 'lead' }, 'ပုံကိုနှိပ်၍ ပြောင်းပါ။ ပုံကြီးများကို အလိုအလျောက် ချုံ့ပေးသည် (ဖုန်းတွင် မြန်မြန်ပွင့်ရန်)။'));
+  const c = el('div', { class: 'sect' }, el('h3', {}, 'Cover ပုံ (ထောင်လိုက်ပုံ ကောင်းသည်)'));
+  const cb = el('div', { class: 'cover' }, photoBox(cfg.cover, r => cfg.cover = r)); c.append(cb); p.append(c);
+
+  const s = el('div', { class: 'sect' }, el('h3', {}, `Gallery — Sweet Memories (${cfg.gallery.length} ပုံ)`,
+    el('button', { class: 'btn sm', onclick: () => pickFiles(true, 'image/*', async fs => { cfg.gallery.push(...await addImages(fs)); changed(true); }) }, '+ ပုံများထည့်မည်')));
+  const t = el('div', { class: 'thumbs' });
+  cfg.gallery.forEach((r, i) => t.append(photoBox(r, nr => cfg.gallery[i] = nr, { num: i + 1, tools: [
+    el('button', { title: 'ရှေ့သို့', onclick: () => { if (i > 0) { [cfg.gallery[i - 1], cfg.gallery[i]] = [cfg.gallery[i], cfg.gallery[i - 1]]; changed(true); } } }, '←'),
+    el('button', { title: 'ဖျက်မည်', onclick: () => { if (confirm('ဒီပုံကို Gallery မှ ဖယ်မလား?')) { cfg.gallery.splice(i, 1); changed(true); } } }, '✕'),
+    el('button', { title: 'နောက်သို့', onclick: () => { if (i < cfg.gallery.length - 1) { [cfg.gallery[i + 1], cfg.gallery[i]] = [cfg.gallery[i], cfg.gallery[i + 1]]; changed(true); } } }, '→')
+  ] })));
+  t.append(el('div', { class: 'add', onclick: () => pickFiles(true, 'image/*', async fs => { cfg.gallery.push(...await addImages(fs)); changed(true); }) }, '＋\nပုံထည့်ရန်\n(အများကြီး ရွေးနိုင်)'));
+  s.append(t); p.append(s);
+  p.append(el('p', { class: 'ref', style: 'margin-top:12px' }, 'Gallery layout: ပုံ ၆ ပုံတစ်တွဲမှာ ပထမပုံကို အကြီးပြသည် — ပုံအရေအတွက် ၆, ၁၂, ၁၈ ဆိုလျှင် အလှဆုံး။'));
+}
+
+/* ---- ④ Album ---- */
+function renderAlbum(p) {
+  p.append(el('h2', {}, 'Our Story Album (ဗီဒီယိုထဲကလို စာမျက်နှာလှန်ကြည့်ရသော Album)'),
+    el('p', { class: 'lead' }, 'စာမျက်နှာတစ်ခုချင်း၏ ပုံစံ၊ ခေါင်းစဉ်၊ ပုံများ ပြင်ပါ။ စာတန်းခွဲသည် အပေါ်တွင် ရွေးထားသော ဘာသာအတွက် ဖြစ်သည်။'));
+  cfg.story.forEach((pg, i) => {
+    const box = el('div', { class: 'page' });
+    const ls = el('select'); Object.entries(LAYOUTS).forEach(([k, [n]]) => ls.add(new Option(n, k))); ls.value = pg.layout;
+    ls.onchange = () => { pg.layout = ls.value; const need = LAYOUTS[pg.layout][1];
+      while (pg.photos.length < need) pg.photos.push(pg.photos[pg.photos.length - 1] || 'photos/01.jpg'); pg.photos.length = need; changed(true); };
+    box.append(el('div', { class: 'hd' }, el('b', {}, `စာမျက်နှာ ${i + 1} / ${cfg.story.length}`), ls,
+      el('button', { class: 'btn sm', onclick: () => { if (i > 0) { [cfg.story[i - 1], cfg.story[i]] = [cfg.story[i], cfg.story[i - 1]]; changed(true); } } }, '↑'),
+      el('button', { class: 'btn sm', onclick: () => { if (i < cfg.story.length - 1) { [cfg.story[i + 1], cfg.story[i]] = [cfg.story[i], cfg.story[i + 1]]; changed(true); } } }, '↓'),
+      el('button', { class: 'btn sm danger', onclick: () => { if (cfg.story.length > 1 && confirm(`စာမျက်နှာ ${i + 1} ကို ဖျက်မလား?`)) { cfg.story.splice(i, 1); changed(true); } } }, '✕ ဖျက်')));
+    const g = el('div', { class: 'grid' });
+    g.append(inp('ခေါင်းစဉ် (English လက်ရေးလှ)', pg.title, v => pg.title = v), mlInp('စာတန်းခွဲ', pg, 'sub'));
+    box.append(g);
+    const t = el('div', { class: 'thumbs', style: 'margin-top:10px' });
+    pg.photos.forEach((r, j) => t.append(photoBox(r, nr => pg.photos[j] = nr, { num: 'ပုံ ' + (j + 1) })));
+    box.append(t); p.append(box);
+  });
+  p.append(el('button', { class: 'btn solid', onclick: () => { cfg.story.push({ layout: 'collage', title: 'New Memories', photos: ['photos/01.jpg', 'photos/02.jpg', 'photos/03.jpg'], sub: { en: '' } }); changed(true); } }, '+ စာမျက်နှာ အသစ်ထည့်မည်'));
+}
+
+/* ---- ⑤ UI strings ---- */
+function renderUI(p) {
+  const L = LANGS.find(l => l.code === editLang).label;
+  p.append(el('h2', {}, `ခလုတ်နှင့် ခေါင်းစဉ် စာသားများ — ${L}`), el('p', { class: 'lead' }, 'Website ရှိ ခလုတ်များ၊ ခေါင်းစဉ်ငယ်များ၊ Countdown၊ RSVP form စာသားများကို ပြင်ရန်။'));
+  const g = el('div', { class: 'grid' });
+  Object.keys(ORIG.i18n.en).forEach(k => {
+    g.append(inp(k, i18n[editLang][k], v => i18n[editLang][k] = v, { hint: editLang !== 'en' ? 'English: ' + i18n.en[k] : '', wide: (i18n.en[k] || '').length > 40 }));
+  });
+  p.append(g);
+  p.append(el('div', { class: 'row' }, el('button', { class: 'btn sm', onclick: () => { if (confirm('ဒီဘာသာ၏ ခလုတ်စာသားများကို မူလအတိုင်း ပြန်ထားမလား?')) { i18n[editLang] = Object.assign({}, ORIG.i18n.en, ORIG.i18n[editLang]); changed(true); } } }, '↺ မူလအတိုင်း ပြန်ထားမည်')));
+}
+
+/* ---- ⑥ Music + Export ---- */
+function renderExport(p) {
+  p.append(el('h2', {}, 'နောက်ခံ သီချင်း'));
+  const mi = el('p', { class: 'lead' }, musicInfo ? `🎵 ${musicInfo.name} (${(musicInfo.size / 1048576).toFixed(1)} MB) — ထည့်ထားပြီး` : 'သီချင်း မထည့်ရသေးပါ (MP3 ဖိုင် — 8MB အောက် အကောင်းဆုံး)');
+  p.append(mi, el('div', { class: 'row' },
+    el('button', { class: 'btn', onclick: () => pickFiles(false, 'audio/*,.mp3,.m4a', async ([f]) => {
+      if (f.size > 15 * 1048576 && !confirm('ဖိုင်ကြီးနေပါသည် (15MB+). ဖုန်းတွင် နှေးနိုင်သည်။ ဆက်ထည့်မလား?')) return;
+      await idb.set('music', f); musicInfo = { name: f.name, size: f.size }; await idb.set('musicInfo', musicInfo); cfg.music = 'music/song.mp3'; changed(true); toast('သီချင်း ထည့်ပြီးပါပြီ'); }) }, '🎵 သီချင်း ရွေးမည်'),
+    musicInfo ? el('button', { class: 'btn danger', onclick: async () => { await idb.del('music'); await idb.del('musicInfo'); musicInfo = null; changed(true); } }, '✕ ဖယ်မည်') : null));
+
+  p.append(el('h2', { style: 'margin-top:26px' }, 'Website ထုတ်ယူ၍ Internet ပေါ်တင်ရန်'));
+  p.append(el('div', { class: 'note' }, el('ol', {},
+    el('li', {}, 'အပေါ်က “⬇ Website ZIP ထုတ်မည်” ကို နှိပ်ပါ (ပြင်ထားသမျှ စာသား + ဓာတ်ပုံ + သီချင်း အားလုံးပါမည်)'),
+    el('li', {}, 'ZIP ကို Extract (Unzip) လုပ်ပါ → wedding-invitation folder ရပါမည်'),
+    el('li', {}, 'app.netlify.com/drop သို့သွား၍ folder တစ်ခုလုံးကို ဆွဲထည့်ပါ → Link ရပါမည်'),
+    el('li', {}, 'ရလာသော Link ကို ① အခြေခံ → “Website Link” တွင်ထည့်၍ ZIP ထပ်ထုတ်/ထပ်တင်ပါ'),
+    el('li', {}, 'card.html ကိုဖွင့်၍ QR ကတ်ကို Print ထုတ်ပါ (Print မထုတ်မီ ဖုန်းဖြင့် Scan စမ်းပါ)')
+  )));
+  p.append(el('div', { class: 'row' }, el('button', { class: 'btn solid', onclick: exportZip }, '⬇ Website ZIP ထုတ်မည်')));
+
+  p.append(el('h2', { style: 'margin-top:26px' }, 'Project သိမ်းဆည်းခြင်း (Backup)'));
+  p.append(el('p', { class: 'lead' }, 'ပြင်ထားသမျှ ဒီ Browser ထဲမှာ အလိုအလျောက် သိမ်းထားပါသည်။ ကွန်ပျူတာ/ဖုန်း တခြားတစ်လုံးမှာ ဆက်ပြင်ချင်ရင် Project ဖိုင် သိမ်းပြီး ပြန်ဖွင့်ပါ။'));
+  p.append(el('div', { class: 'row' },
+    el('button', { class: 'btn', onclick: saveProject }, '💾 Project ဖိုင် သိမ်းမည်'),
+    el('button', { class: 'btn', onclick: () => pickFiles(false, '.json,application/json', ([f]) => openProject(f)) }, '📂 Project ဖိုင် ဖွင့်မည်'),
+    el('button', { class: 'btn danger', onclick: async () => { if (!confirm('ပြင်ထားသမျှ အားလုံးဖျက်ပြီး မူလအတိုင်း ပြန်စမလား?')) return;
+      await idb.clear(); cfg = clone(ORIG.cfg); i18n = clone(ORIG.i18n); LC.forEach(l => i18n[l] = Object.assign({}, ORIG.i18n.en, i18n[l])); musicInfo = null; changed(true); toast('မူလအတိုင်း ပြန်ထားပြီး'); } }, '↺ အားလုံး မူလအတိုင်း')));
+}
+
+/* ================= project backup ================= */
+async function saveProject() {
+  busy(true, 'Project သိမ်းနေသည်…');
+  const images = {}; for (const r of refs()) if (r && r.startsWith('idb:')) images[r.slice(4)] = cache[r.slice(4)];
+  const m = await idb.get('music');
+  const data = { app: 'lm-wedding', v: 1, cfg, i18n, images, music: m ? await blobToDataURL(m) : null, musicInfo };
+  download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'wedding-project.json'); busy(false);
+}
+async function openProject(f) {
+  busy(true, 'Project ဖွင့်နေသည်…');
+  try { const d = JSON.parse(await f.text()); if (d.app !== 'lm-wedding') throw new Error('ဖိုင်မှားနေပါသည်');
+    for (const [id, u] of Object.entries(d.images || {})) { if (!u) continue; await idb.set('img:' + id, dataURLToBlob(u)); cache[id] = u; }
+    if (d.music) { await idb.set('music', dataURLToBlob(d.music)); await idb.set('musicInfo', d.musicInfo); musicInfo = d.musicInfo; }
+    cfg = d.cfg; i18n = d.i18n; changed(true); toast('Project ဖွင့်ပြီးပါပြီ');
+  } catch (e) { alert('ဖွင့်မရပါ: ' + e.message); }
+  busy(false);
+}
+function download(blob, name) { const a = el('a', { href: URL.createObjectURL(blob), download: name }); document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); }
+
+/* ================= export website ZIP ================= */
+const HEAD_CFG = `/* =====================================================================
+   မင်္ဂလာဖိတ်စာ အချက်အလက်များ — admin.html ဖြင့် ပြင်ရန် အကြံပြုပါသည်
+   (Generated by LM STUDIO Wedding Admin)
+   ===================================================================== */\n`;
+async function tryFetch(path) { try { const r = await fetch(path); if (r.ok) return await r.blob(); } catch (e) {} return null; }
+async function exportZip() {
+  if (!window.JSZip || !window.SITE_BUNDLE) { alert('js/jszip.min.js သို့မဟုတ် js/site-bundle.js မတွေ့ပါ'); return; }
+  busy(true, 'ZIP ပြင်ဆင်နေသည်…');
+  try {
+    const B = window.SITE_BUNDLE, zip = new JSZip(), root = zip.folder('wedding-invitation');
+    Object.entries(B.files).forEach(([path, text]) => root.file(path, text));
+    const out = clone(cfg), map = {}, missing = [];
+    const photo = async r => {
+      if (!r) return r; if (map[r]) return map[r];
+      let name = r, data = null;
+      if (r.startsWith('idb:')) { name = `photos/${r.slice(4)}.jpg`; data = await idb.get('img:' + r.slice(4)); }
+      else { data = await tryFetch(r); if (!data && B.placeholders[r]) data = b64ToBytes(B.placeholders[r]); }
+      if (data) root.file(name, data); else missing.push(r);
+      return (map[r] = name);
+    };
+    out.cover = await photo(out.cover);
+    out.gallery = await Promise.all(out.gallery.map(photo));
+    for (const pg of out.story) pg.photos = await Promise.all(pg.photos.map(photo));
+    const m = await idb.get('music') || (out.music ? await tryFetch(out.music) : null);
+    if (m) { root.file('music/song.mp3', m); out.music = 'music/song.mp3'; } else out.music = '';
+    root.file('js/config.js', HEAD_CFG + 'window.WEDDING = ' + JSON.stringify(out, null, 2) + ';\n');
+    root.file('js/i18n.js', '/* Website UI strings — 5 languages (edit with admin.html) */\nwindow.LANGS = ' + JSON.stringify(LANGS, null, 2) + ';\n\nwindow.I18N = ' + JSON.stringify(i18n, null, 2) + ';\n');
+    root.file('js/site-bundle.js', 'window.SITE_BUNDLE = ' + JSON.stringify(B) + ';\n');
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    download(blob, 'wedding-invitation.zip');
+    if (missing.length) alert('အောက်ပါပုံများကို ZIP ထဲ မထည့်နိုင်ပါ — အဟောင်း photos folder ထဲမှ ကူးထည့်ပါ (သို့) admin တွင် ပုံပြန်ရွေးပါ:\n' + missing.join('\n'));
+    else toast('✓ wedding-invitation.zip ထုတ်ပြီးပါပြီ');
+  } catch (e) { alert('ZIP ထုတ်မရပါ: ' + e.message); }
+  busy(false);
+}
+$('#exportBtn').onclick = exportZip;
+
+/* ================= start ================= */
+render(); loadPreview();
+$('#status').textContent = draft ? '✓ ယခင်ပြင်ထားသည်များ ပြန်ဖွင့်ထားသည်' : 'အသင့်'; $('#status').className = 'st ok';
+})();
+</script>
+</body>
+</html>

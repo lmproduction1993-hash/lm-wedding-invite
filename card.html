@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Invitation Card · Print</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Padauk:wght@400;700&family=Noto+Sans+Myanmar:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#b8955a;--gold2:#e3c98f;--deep:#7e5c28;--ink:#3a3330;--mm:'Pyidaungsu','Padauk','Noto Sans Myanmar',sans-serif;--t:var(--mm)}
+html[lang=en] .card{--t:'Cormorant Garamond',serif}
+html[lang=zh] .card{--t:'Noto Serif SC',serif}
+html[lang=th] .card{--t:'Noto Sans Thai',sans-serif}
+html[lang=shn] .card{--t:'Noto Sans Myanmar','Padauk',sans-serif}
+html[lang=en] .card .name{display:none}
+.panel select{font-family:inherit;font-size:14px;padding:8px 10px;border:1px solid #d6cbb8;border-radius:8px;background:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cormorant Garamond',serif;background:#dfe5ea;color:var(--ink);padding:20px 16px 60px}
+.gold{background:linear-gradient(120deg,var(--deep),var(--gold2) 45%,var(--gold) 60%,var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+@media print{.gold{color:var(--gold);background:none}}
+
+/* ---- Controls ---- */
+.panel{max-width:520px;margin:0 auto 22px;background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.08);font-family:var(--mm)}
+.panel h1{font-size:17px;margin-bottom:4px}
+.panel p{font-size:13px;color:#777;line-height:1.8;margin-bottom:10px}
+.panel input[type=url]{width:100%;font-size:15px;padding:10px 12px;border:1px solid #d6cbb8;border-radius:8px;font-family:inherit}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.row label{font-size:13px;display:flex;align-items:center;gap:6px}
+.panel button{font-family:inherit;font-size:14px;padding:10px 16px;border-radius:999px;border:1px solid var(--gold);background:#fff;color:var(--deep);cursor:pointer}
+.panel button.solid{background:var(--gold);color:#fff}
+
+/* ---- Card 5x7 inch ---- */
+.card{width:127mm;height:178mm;margin:0 auto;background:#fffefb;position:relative;box-shadow:0 20px 50px -18px rgba(40,50,70,.45);padding:15mm 13mm 11mm;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.card::before{content:"";position:absolute;inset:5mm;border:.4mm solid var(--gold2);pointer-events:none}
+.card::after{content:"";position:absolute;inset:6.3mm;border:.2mm solid var(--gold2);pointer-events:none}
+.c{position:absolute;width:22mm;height:22mm;color:var(--gold)}
+.c.tl{top:3.5mm;left:3.5mm}.c.tr{top:3.5mm;right:3.5mm;transform:scaleX(-1)}.c.bl{bottom:3.5mm;left:3.5mm;transform:scaleY(-1)}.c.br{bottom:3.5mm;right:3.5mm;transform:scale(-1)}
+.mono{font-family:'Great Vibes',cursive;font-size:44px;line-height:1}
+.mono i{font-family:'Cormorant Garamond';font-size:20px;vertical-align:middle;margin:0 2px}
+.title{font-family:var(--t);font-weight:700;font-size:16px;margin-top:2mm}
+.mm{font-family:var(--t);line-height:1.9}
+.small{font-size:10.5px;color:#6d625b}
+.name{font-family:var(--t);font-weight:700;font-size:15px;color:var(--ink)}
+.en{font-family:'Great Vibes',cursive;font-size:24px;line-height:1.1}
+.heart{color:var(--gold);font-size:12px;margin:1.2mm 0}
+.info{margin-top:3mm;font-family:var(--t);font-size:11px;line-height:2}
+.info b{color:var(--deep)}
+.qrbox{margin-top:auto;display:flex;align-items:center;gap:4mm}
+.qr{position:relative;width:31mm;height:31mm;padding:0;border:.3mm solid var(--gold);background:#fff}
+.qr img{width:100%;height:100%;image-rendering:pixelated}
+.scan{font-style:italic;font-size:12.5px;line-height:1.35;text-align:left;color:#5d524b}
+.foot{margin-top:3mm;border:.3mm solid var(--gold2);padding:1.5mm 4mm;font-family:var(--t);font-size:9.5px;color:#6d625b;line-height:1.8}
+
+.qr-warn{position:absolute;inset:0;display:none;place-items:center;text-align:center;background:rgba(181,72,61,.82);color:#fff;font-family:var(--mm);font-size:10px;line-height:1.4}
+.qr-warn.show{display:grid}
+.warn{display:none;margin-top:10px;background:#fdecea;border:1px solid #f1b9b2;color:#8a2c22;border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.8}
+.warn.show{display:block}
+@media print{
+  .qr-warn{display:none!important}
+  @page{size:127mm 178mm;margin:0}
+  body{background:#fff;padding:0}
+  .panel{display:none}
+  .card{box-shadow:none;margin:0}
+}
+@media (max-width:520px){.card{zoom:.72}}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>QR ဖိတ်စာကတ် ထုတ်ရန်</h1>
+  <p>Website ကို Hosting တင်ပြီးနောက် ရလာသော Link ကို အောက်တွင်ထည့်ပါ။ QR သည် သင့် Link သို့ တိုက်ရိုက်သွားမည် (ကြော်ငြာ မပါ)။</p>
+  <input type="url" id="url" placeholder="https://your-site.netlify.app">
+  <div class="warn" id="urlWarn">⚠ ဒီ Link သည် နမူနာ Link သာ ဖြစ်ပြီး Internet ပေါ်တွင် မရှိသေးပါ — QR ကို Scan ဖတ်လို့ရသော်လည်း ဖွင့်မရပါ။<br>Website ကို Netlify Drop တွင် အရင်တင်ပြီး ရလာသော Link (ဥပမာ https://zaii-susu.netlify.app) ကို ဒီမှာ ထည့်ပါ။</div>
+  <div class="row">
+    <label>ကတ်ဘာသာ / Card language <select id="cardLang"></select></label>
+    <label>QR ဖွင့်လျှင် <select id="qrLang"><option value="">ဖုန်းဘာသာအလိုက် (Auto)</option></select></label>
+  </div>
+  <div class="row">
+    <label><input type="radio" name="clr" value="#3a2a14" checked> အညိုရင့်</label>
+    <label><input type="radio" name="clr" value="#000000"> အနက်</label>
+    <label><input type="radio" name="clr" value="#8c6a33"> ရွှေရောင်</label>
+  </div>
+  <div class="row">
+    <button class="solid" id="gen">QR ထုတ်မည်</button>
+    <button id="dl">QR PNG Download</button>
+    <button id="print">🖨 ကတ် Print / PDF</button>
+  </div>
+</div>
+
+<div class="card">
+  <svg class="c tl" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 56V14Q4 4 14 4h42"/><path d="M14 4c4 6 10 8 16 6M4 14c6 4 8 10 6 16M22 4c2 4 6 5 9 4M4 22c4 2 5 6 4 9"/><circle cx="16" cy="16" r="2.5" fill="currentColor"/><path d="M16 16c6-1 10 2 12 7M16 16c-1 6 2 10 7 12"/></svg>
+  <svg class="c tr" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 56V14Q4 4 14 4h42"/><path d="M14 4c4 6 10 8 16 6M4 14c6 4 8 10 6 16M22 4c2 4 6 5 9 4M4 22c4 2 5 6 4 9"/><circle cx="16" cy="16" r="2.5" fill="currentColor"/><path d="M16 16c6-1 10 2 12 7M16 16c-1 6 2 10 7 12"/></svg>
+  <svg class="c bl" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 56V14Q4 4 14 4h42"/><path d="M14 4c4 6 10 8 16 6M4 14c6 4 8 10 6 16M22 4c2 4 6 5 9 4M4 22c4 2 5 6 4 9"/><circle cx="16" cy="16" r="2.5" fill="currentColor"/><path d="M16 16c6-1 10 2 12 7M16 16c-1 6 2 10 7 12"/></svg>
+  <svg class="c br" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 56V14Q4 4 14 4h42"/><path d="M14 4c4 6 10 8 16 6M4 14c6 4 8 10 6 16M22 4c2 4 6 5 9 4M4 22c4 2 5 6 4 9"/><circle cx="16" cy="16" r="2.5" fill="currentColor"/><path d="M16 16c6-1 10 2 12 7M16 16c-1 6 2 10 7 12"/></svg>
+
+  <div class="mono gold" id="mono">Z<i>&amp;</i>S</div>
+  <div class="title gold" id="ct"></div>
+  <div class="heart">♥</div>
+  <div class="mm small" id="gp"></div>
+  <div class="name" id="gn"></div>
+  <div class="en gold" id="ge"></div>
+  <div class="heart">♥ ♥</div>
+  <div class="mm small" id="bp"></div>
+  <div class="name" id="bn"></div>
+  <div class="en gold" id="be"></div>
+  <div class="info">
+    <div><b id="lD"></b> · <span id="dt"></span></div>
+    <div><b id="lT"></b> · <span id="tm"></span></div>
+    <div><b id="lV"></b> · <span id="vn"></span></div>
+  </div>
+  <div class="qrbox">
+    <div class="qr"><img id="qrImg" alt="QR"><div class="qr-warn" id="qrWarn">နမူနာ Link<br>SAMPLE</div></div>
+    <div class="scan">“ Kindly Scan to View<br>Our Love and Memories ”<div class="mm" id="scanL" style="font-style:normal;font-size:9.5px;margin-top:1mm;max-width:38mm"></div></div>
+  </div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/qrcode.js"></script>
+<script>
+let W = window.WEDDING; const $ = s => document.querySelector(s);
+const setMono = () => $('#mono').innerHTML = `${W.monogram[0]}<i>&amp;</i>${W.monogram[1]}`; setMono();
+const cl = $('#cardLang'), ql = $('#qrLang');
+LANGS.forEach(l => { cl.add(new Option(l.label, l.code)); ql.add(new Option(l.label, l.code)); });
+function renderCard(){
+  const l = cl.value, T = I18N[l], P = v => pick(v, l);
+  document.documentElement.lang = l; saveLang(l);
+  $('#ct').textContent = T.cardTitle;
+  $('#gp').textContent = P(W.groomParents); $('#gn').textContent = P(W.groom) === pick(W.groom,'en') ? '' : P(W.groom); $('#ge').textContent = pick(W.groom,'en');
+  $('#bp').textContent = P(W.brideParents); $('#bn').textContent = P(W.bride) === pick(W.bride,'en') ? '' : P(W.bride); $('#be').textContent = pick(W.bride,'en');
+  $('#lD').textContent = T.date; $('#lT').textContent = T.time; $('#lV').textContent = T.venue;
+  $('#dt').textContent = P(W.date); $('#tm').textContent = P(W.time);
+  $('#vn').textContent = `${W.venue}, ${P(W.venueAddress)}`;
+  $('#scanL').textContent = l === 'en' ? '' : T.scan;
+  $('#foot').textContent = T.cardFoot;
+}
+cl.value = detectLang(W.defaultLang); cl.onchange = renderCard; ql.onchange = () => make(); renderCard();
+const urlIn = $('#url');
+urlIn.value = (W.siteUrl && !/your-site/.test(W.siteUrl)) ? W.siteUrl : (location.protocol.startsWith('http') ? location.href.replace(/card\.html.*$/, '') : W.siteUrl);
+let canvas;
+function make(){
+  let url = urlIn.value.trim();
+  const bad = !url || /your-site|example\.com/i.test(url) || !/^https?:\/\/[^\/]+\.[^\/]+/i.test(url) || /localhost|127\.0\.0\.1/.test(url);
+  $('#urlWarn').classList.toggle('show', bad); $('#qrWarn').classList.toggle('show', bad);
+  if(!url) return;
+  if (ql.value) { try { const u = new URL(url); u.searchParams.set('lang', ql.value); url = u.toString(); } catch(e){} }
+  const color = document.querySelector('input[name=clr]:checked').value;
+  const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+  const n = qr.getModuleCount(), cell = 24, q = 4, size = (n + q*2) * cell;
+  canvas = document.createElement('canvas'); canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,size,size); ctx.fillStyle = color;
+  for (let r=0;r<n;r++) for (let c=0;c<n;c++) if (qr.isDark(r,c)) ctx.fillRect((c+q)*cell,(r+q)*cell,cell,cell);
+  $('#qrImg').src = canvas.toDataURL('image/png');
+}
+$('#gen').onclick = make;
+urlIn.addEventListener('input', make);
+document.querySelectorAll('input[name=clr]').forEach(r => r.onchange = make);
+$('#dl').onclick = () => { make(); const a=document.createElement('a'); a.href=canvas.toDataURL('image/png'); a.download='wedding-qr.png'; a.click(); };
+$('#print').onclick = () => { make(); if ($('#urlWarn').classList.contains('show') && !confirm('QR Link သည် နမူနာ Link ဖြစ်နေပါသည်။ ဒီ QR ဖြင့် Print ထုတ်လျှင် ဧည့်သည်များ ဖွင့်မရပါ။ ဆက်ထုတ်မလား?')) return; setTimeout(()=>print(), 200); };
+make();
+
+/* ---- Live preview from admin.html ---- */
+window.addEventListener('message', e => {
+  const m = e.data; if (!m || m.type !== 'wedding-preview') return;
+  W = m.config; if (m.i18n) Object.keys(m.i18n).forEach(k => I18N[k] = m.i18n[k]);
+  if (m.lang) cl.value = m.lang;
+  if (W.siteUrl && !/your-site/.test(W.siteUrl)) urlIn.value = W.siteUrl;
+  setMono(); renderCard(); make();
+});
+if (window.parent !== window) { document.querySelector('.panel').style.display = 'none'; document.body.style.padding = '12px'; parent.postMessage({ type: 'wedding-ready' }, '*'); }
+</script>
+</body>
+</html>
