@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Wedding Invitation · Zaii Hla Mg &amp; Su Su</title>
-<meta name="description" content="ကျွန်ုပ်တို့၏ မင်္ဂလာပွဲသို့ လှိုက်လှဲစွာ ဖိတ်ကြားအပ်ပါသည်">
-<meta property="og:title" content="Wedding Invitation · Zaii Hla Mg & Su Su">
+<title>Wedding Invitation ·  &amp; </title>
+<meta name="description" content="Together with our families, we joyfully invite you to celebrate our wedding day.">
+<meta property="og:title" content="Wedding Invitation ·  & ">
 <meta property="og:description" content="Kindly scan to view our love and memories">
-<meta property="og:image" content="photos/cover.jpg">
+<meta property="og:image" content="photos/imw1f1wtqnwrg.jpg">
 <meta name="theme-color" content="#f6f1ea">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23b8955a%27/%3E%3Cpath d=%27M32 47S17 38 17 27a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20z%27 fill=%27%23fff8e6%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/fonts.css">
@@ -202,14 +202,66 @@ html[lang=en] .hero .loc,html[lang=en] .parents .nm{display:none}
 <!-- ========== ENVELOPE INTRO ========== -->
 <div id="intro">
   <div class="langbar" data-langbar></div>
-  <div class="env" id="envelope" role="button" aria-label="Open invitation">
+  <div class="env" id="envelope" role="button" tabindex="0" aria-label="Open invitation">
     <div class="flap"></div>
     <div class="tassel"></div>
     <div class="seal" id="sealMono">ZS</div>
     <div class="front"><div class="w gold-text">Wedding</div><div class="i">INVITATION</div></div>
-    <div class="tap" data-i18n="tapOpen"></div>
+    <div class="tap" data-i18n="tapOpen">ဖိတ်စာဖွင့်ရန် နှိပ်ပါ · Tap to open</div>
   </div>
 </div>
+
+<script>
+/* ===== Envelope opener — standalone, works even if other files fail to load ===== */
+(function () {
+  var intro = document.getElementById('intro');
+  var opened = false;
+
+  function showInviteError(msg) {
+    var box = document.getElementById('inviteErr');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'inviteErr';
+      box.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:200;background:#fdecea;color:#8a2c22;border:1px solid #f1b9b2;border-radius:10px;padding:10px 14px;font:14px/1.8 Padauk,"Noto Sans Myanmar",sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.15)';
+      document.body.appendChild(box);
+    }
+    box.textContent = msg;
+  }
+
+  function openInvite() {
+    if (opened) return;
+    opened = true;
+    intro.classList.add('open');                                   // flap + seal animation
+    setTimeout(function () { document.body.classList.remove('locked'); }, 900);   // allow scrolling
+    setTimeout(function () { intro.style.display = 'none'; }, 2000);              // remove overlay completely
+    try { document.dispatchEvent(new CustomEvent('invite:open')); }               // music + petals (main script)
+    catch (e) { var ev = document.createEvent('Event'); ev.initEvent('invite:open', true, true); document.dispatchEvent(ev); }
+  }
+
+  window.openInvite = openInvite;
+  window.isInviteOpen = function () { return opened; };
+  window.showInviteError = showInviteError;
+
+  // one click/tap anywhere on the envelope screen opens it (language buttons excluded)
+  intro.addEventListener('click', function (e) {
+    var t = e.target;
+    while (t && t !== intro) { if (t.classList && t.classList.contains('langbar')) return; t = t.parentNode; }
+    openInvite();
+  });
+  // keyboard: Enter / Space
+  intro.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) { e.preventDefault(); openInvite(); }
+  });
+  // ?open=1 in the link skips the envelope
+  if (/[?&]open=1/.test(location.search)) openInvite();
+
+  // if something else breaks later, say so instead of failing silently
+  window.addEventListener('error', function (e) {
+    if (e && e.target && e.target !== window) return;              // ignore missing images/music
+    showInviteError('⚠ Error: ' + (e.message || 'script') + ' — ZIP ကို Extract လုပ်ပြီး folder တစ်ခုလုံးဖြင့် ဖွင့်ပါ');
+  });
+})();
+</script>
 
 <div class="langfab" id="langfab">
   <button id="langToggle" aria-label="Language">🌐 <span id="langCur"></span></button>
@@ -354,6 +406,11 @@ html[lang=en] .hero .loc,html[lang=en] .parents .nm{display:none}
 <script src="js/helpers.js"></script>
 <script>
 (function(){
+if (!window.WEDDING || !window.I18N || !window.LANGS || !window.pick) {
+  // envelope still opens (standalone script above); explain what is missing
+  window.showInviteError && window.showInviteError('⚠ js/config.js, js/i18n.js, js/helpers.js ဖိုင်များ မတွေ့ပါ — ZIP ကို Extract (Unzip) လုပ်ပြီး folder တစ်ခုလုံးကို ဖွင့်ပါ / တင်ပါ။');
+  return;
+}
 let W = window.WEDDING; const $ = s => document.querySelector(s);
 const set = (sel, txt) => { const el=$(sel); if(el) el.textContent = txt; };
 const toast = m => { const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); };
@@ -410,12 +467,12 @@ function setLang(l){
 
 /* ---- Envelope intro ---- */
 const audio = $('#bgm'), mBtn = $('#musicBtn');
-$('#envelope').addEventListener('click', () => {
-  $('#intro').classList.add('open');
-  setTimeout(() => document.body.classList.remove('locked'), 900);
+function onInviteOpen(){
   startPetals();
-  if (W.music) { audio.src = W.music; audio.play().then(()=>{ mBtn.hidden=false; mBtn.classList.add('playing'); }).catch(()=>{}); }
-}, { once:true });
+  if (W.music) { audio.src = W.music; audio.play().then(()=>{ mBtn.hidden=false; mBtn.classList.add('playing'); }).catch(()=>{ mBtn.hidden=false; }); }
+}
+if (window.isInviteOpen && window.isInviteOpen()) onInviteOpen();
+else document.addEventListener('invite:open', onInviteOpen, { once:true });
 audio.addEventListener('error', () => { mBtn.hidden = true; });
 mBtn.addEventListener('click', () => { if (audio.paused){ audio.play(); mBtn.classList.add('playing'); } else { audio.pause(); mBtn.classList.remove('playing'); } });
 
